@@ -1,4 +1,5 @@
 import sys
+from SudokuGraph import *
 
 #print("Hello", str(sys.argv))
 
@@ -10,8 +11,15 @@ def get_sudoku():
         for j in range(0,4):
             sudoku[i][j] = sudoku_string[k]
             k += 1
-    print(sudoku)
+    return(sudoku)
 
-get_sudoku()
+def test():
+    sudoku = get_sudoku()
+    sdk_graph = SudokuGraph()
+    return sdk_graph.goalTest(sudoku)
+
+print(test())
+
+
 
     
