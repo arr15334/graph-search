@@ -9,14 +9,16 @@ def get_sudoku():
     sudoku = [[0 for x in range(0,4)] for y in range(0,4)]
     for i in range(0,4):
         for j in range(0,4):
-            sudoku[i][j] = sudoku_string[k]
+            if sudoku_string[k] != '.':
+                sudoku[i][j] = int(sudoku_string[k])
             k += 1
     return(sudoku)
 
 def test():
     sudoku = get_sudoku()
-    sdk_graph = SudokuGraph()
-    return sdk_graph.goalTest(sudoku)
+    print(sudoku)
+    sdk_graph = SudokuGraph(sudoku)
+    return sdk_graph.actions(sudoku)
 
 print(test())
 
