@@ -1,3 +1,5 @@
+import math
+
 def copy_puzzle(p):
     the_copy = [[0 for x in range(0,4)] for y in range(0,4)]
     for i in range(0,4):
@@ -5,6 +7,11 @@ def copy_puzzle(p):
             the_copy[i][j] = p[i][j]
     return the_copy
 
+def manhattan_distance(x, i, j):
+    correct_i = math.floor((x-0.01)/4)
+    correct_j = (x % 4 - 1) if (x%4 != 0) else 3
+    return (abs(i - correct_i) + abs(j - correct_j))
+    
 def possible_move(s, i, j):
     move = []
     if (j < 3):
@@ -60,6 +67,16 @@ class fifteenPuzzle(object):
 
     def h (self, puzzles):
         last_puzzle = puzzles[len(puzzles)-1]
+        m_distance = 0
+        misplaced_blocks = 0
+        for i in range(0,4):
+            for j in range(0,4):
+                number = last_puzzle[i][j] #if last_puzzle[i][j] != 0 else 16
+                if (i*4 + (j+1) != number and number > 0):
+                    misplaced_blocks += 1
+                m_distance += manhattan_distance(number, i, j) if number > 0 else m_distance
+        return max(m_distance, misplaced_blocks)
+        """
         missing = 0
         correct_next = 0
         distance = 0
@@ -74,3 +91,4 @@ class fifteenPuzzle(object):
                     distance = 3 - i + 3 - j
                 index += 1
         return 2*missing + distance - 2*correct_next
+        """

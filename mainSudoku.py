@@ -37,10 +37,11 @@ def get_puzzle():
 def get_sudoku():
     sudoku_string = list(sys.argv[2].split("=")[1])
     print(sudoku_string)
+    sudoku_size = 4 if len(sudoku_string) == 16 else 9
     k = 0
-    sudoku = [[0 for x in range(0,4)] for y in range(0,4)]
-    for i in range(0,4):
-        for j in range(0,4):
+    sudoku = [[0 for x in range(0,sudoku_size)] for y in range(0,sudoku_size)]
+    for i in range(0,sudoku_size):
+        for j in range(0,sudoku_size):
             if sudoku_string[k] != '.':
                 sudoku[i][j] = int(sudoku_string[k])
             k += 1

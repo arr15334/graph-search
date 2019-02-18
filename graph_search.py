@@ -10,30 +10,41 @@ def a_star(frontier, problem):
 def is_explored(path, res, e):
     pass
 
+def copy_path(path):
+    copy = []
+    for p in path:
+        copy.append(p)
+    return copy
+
 def graph_search(problem):
     frontier = [[problem.initial_state]]
     explored = []
     i = 0
-    while i < 20:
+    while True:
         i += 1
+        #print(i)
+        if i > 1000:
+            print("not possible")
+            print(path)
+            return False
+        elif i % 10 == 0:
+            print(path)
         if (len(frontier)):
             path = a_star(frontier, problem)
-            #print("frontier", frontier)
-            #print("path", path)
             s = path[len(path)-1]
+            frontier.remove(path)
             explored.append(s)
-
             if problem.goal_test(s):
                 print("SOLVED")
                 return path
-
             for a in problem.actions(s):
+                #print(a)
                 result = problem.result(s, a)
-                print("result", result)
+                #print(result)
                 if result not in explored:
-                    print("explored", explored)
+                    #print("explored", explored)
                     new_path = []
-                    new_path = path.copy()
+                    new_path = copy_path(path)
                     new_path.append(result)
                     frontier.append(new_path)
                 #if not is_explored(path, result, explored):
@@ -42,6 +53,8 @@ def graph_search(problem):
                     #new_path.addStep(problem.result(s,a))
                  #   frontier.append(new_path)
         else:
+            print("whot")
+            print(path)
             return False
 
 
