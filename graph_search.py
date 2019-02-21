@@ -23,11 +23,11 @@ def graph_search(problem):
     while True:
         i += 1
         #print(i)
-        if i > 1000:
+        if i > 10000:
             print("not possible")
             print(path)
             return False
-        elif i % 10 == 0:
+        elif i % 100 == 0:
             print(path)
         if (len(frontier)):
             path = a_star(frontier, problem)

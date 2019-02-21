@@ -69,26 +69,35 @@ class fifteenPuzzle(object):
         last_puzzle = puzzles[len(puzzles)-1]
         m_distance = 0
         misplaced_blocks = 0
+        linear_conflicts = 0
         for i in range(0,4):
             for j in range(0,4):
                 number = last_puzzle[i][j] #if last_puzzle[i][j] != 0 else 16
-                if (i*4 + (j+1) != number and number > 0):
+                number_c = last_puzzle[j][i]
+                if (i*4 + (j+1) != number ): #and number > 0):
                     misplaced_blocks += 1
-                m_distance += manhattan_distance(number, i, j) if number > 0 else m_distance
-        return max(m_distance, misplaced_blocks)
-        """
-        missing = 0
-        correct_next = 0
-        distance = 0
-        index = 1
-        for i in range(0,4):
-            for j in range(0,4):
-                if (j != 3 and last_puzzle[i][j] + 1 == last_puzzle[i][j+1]):
-                    correct_next += 1
-                if (last_puzzle[i][j] != index):
-                    missing += 1
-                if (last_puzzle[i][j] == 0):
-                    distance = 3 - i + 3 - j
-                index += 1
-        return 2*missing + distance - 2*correct_next
-        """
+                m_distance += manhattan_distance(number, i, j) if number > 0 else 0
+                if number <= (i+1)*4 and number > i * 4 and number != i*4 + (j+1) and number != 0 and j > 0:
+                    correct_j = number % 4 - 1
+                    if (correct_j < j):
+                        for k in range(correct_j,j):
+                            previous_number = last_puzzle[i][k]
+                            if (previous_number <= (i+1)*4 and previous_number > i * 4 and previous_number != 0):
+                                linear_conflicts += 1
+                if (number_c % 4 == i + 1 and number_c != j*4 + (i+1) and number != 0 and j > 0):
+                    correct_row = None
+                    if (number_c <= 4):
+                        correct_row = 0
+                    elif(number_c <= 8):
+                        correct_row = 1
+                    elif(number_c <= 12):
+                        correct_row = 2
+                    else:
+                        correct_row = 3
+                    if (correct_row < j):                        
+                        for k in range(correct_row, j):
+                            previous_number = last_puzzle[j][k]
+                            if (previous_number % 4 == i + i and previous_number != 0):
+                                linear_conflicts += 1
+        return max(m_distance + 2*linear_conflicts, misplaced_blocks)
+        

@@ -193,9 +193,6 @@ class SudokuGraph(object):
         for i in range(0, self.size):
             curr_grid = get_grid_by_index(i,state) if self.size == 4 else get_grid_by_index_9(i,state)
             if not all(x in curr_grid for x in self.all_sdk):
-                #print("GRID")
-                #print(self.size)
-                #print(curr_grid)
                 return False
         return True
 
