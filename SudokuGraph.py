@@ -110,7 +110,7 @@ class SudokuGraph(object):
                         if a_copy not in (act):
                             act.append(a_copy)
                     """
-                    if (self.size == 9 and len(entries) == 1):
+                    if (self.size == 9 and len(entries) <= 3):
                         for n in entries:
                             a_copy = copy_sudoku(s)
                             a_copy[i][j] = n
@@ -250,6 +250,8 @@ class SudokuGraph(object):
             elif (self.size == 9):
                 if (all (x in get_grid_by_index_9(i, last_sudoku) for x in self.all_sdk)):
                     full_grids += 1
+        if (self.size == 4):
+            return 2* empty_cells - 3 *(full_rows + full_grids + full_columns)
         return empty_cells + possibilities #- 3 * (full_rows + full_grids + full_columns)
         #return 2 * empty_cells + possibilities - 3 * (full_rows + full_grids + full_columns)
 
